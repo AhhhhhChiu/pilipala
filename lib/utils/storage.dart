@@ -88,6 +88,10 @@ class SettingBoxKey {
       autoPiP = 'autoPiP',
       enableAutoLongPressSpeed = 'enableAutoLongPressSpeed',
       enablePlayerControlAnimation = 'enablePlayerControlAnimation',
+
+      /// 空降助手（跳过恰饭片段）
+      sponsorBlockEnable = 'sponsorBlockEnable',
+      sponsorBlockCategoryConfig = 'sponsorBlockCategoryConfig',
       // 默认音频输出方式
       defaultAoOutput = 'defaultAoOutput',
       // 港澳台模式

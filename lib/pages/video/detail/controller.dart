@@ -17,6 +17,7 @@ import 'package:pilipala/models/video/play/url.dart';
 import 'package:pilipala/models/video/reply/item.dart';
 import 'package:pilipala/pages/video/detail/reply_reply/index.dart';
 import 'package:pilipala/plugin/pl_player/index.dart';
+import 'package:pilipala/plugin/sponsor_block/index.dart';
 import 'package:pilipala/utils/storage.dart';
 import 'package:pilipala/utils/utils.dart';
 import 'package:pilipala/utils/video_utils.dart';
@@ -299,6 +300,14 @@ class VideoDetailController extends GetxController
     plPlayerController.headerControl = headerControl;
 
     plPlayerController.subtitles.value = subtitles;
+
+    /// 空降助手：挂载播放器并拉取当前视频片段
+    SponsorBlockCtr.i.attach(plPlayerController);
+    SponsorBlockCtr.i.onVideoLoad(
+      bvid: bvid,
+      cid: cid.value,
+      durationSec: ((data.timeLength ?? 0) / 1000).round(),
+    );
   }
 
   // 视频链接
@@ -675,6 +684,7 @@ class VideoDetailController extends GetxController
   @override
   void onClose() {
     super.onClose();
+    SponsorBlockCtr.i.detach();
     plPlayerController.dispose();
     tabCtr.removeListener(() {
       onTabChanged();

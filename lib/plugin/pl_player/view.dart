@@ -15,6 +15,7 @@ import 'package:pilipala/plugin/pl_player/controller.dart';
 import 'package:pilipala/plugin/pl_player/models/duration.dart';
 import 'package:pilipala/plugin/pl_player/models/fullscreen_mode.dart';
 import 'package:pilipala/plugin/pl_player/utils.dart';
+import 'package:pilipala/plugin/sponsor_block/index.dart';
 import 'package:pilipala/utils/feed_back.dart';
 import 'package:pilipala/utils/storage.dart';
 import 'package:screen_brightness/screen_brightness.dart';
@@ -486,6 +487,12 @@ class _PLVideoPlayerState extends State<PLVideoPlayer>
           ),
         ),
 
+        /// 空降提示条（跳过/撤销）
+        SbSkipNotice(controller: _),
+
+        /// 空降落点 pill（精彩时刻）
+        SbPoiPill(controller: _),
+
         /// 音量🔊 控制条展示
         Obx(
           () => ControlBar(
@@ -769,32 +776,42 @@ class _PLVideoPlayerState extends State<PLVideoPlayer>
               bottom: -1.5,
               left: 0,
               right: 0,
-              child: ProgressBar(
-                progress: Duration(seconds: value),
-                buffered: Duration(seconds: buffer),
-                total: Duration(seconds: max),
-                progressBarColor: colorTheme,
-                baseBarColor: Colors.white.withOpacity(0.2),
-                bufferedBarColor:
-                    Theme.of(context).colorScheme.primary.withOpacity(0.4),
-                timeLabelLocation: TimeLabelLocation.none,
-                thumbColor: colorTheme,
-                barHeight: 3,
-                thumbRadius: 0.0,
-                // onDragStart: (duration) {
-                //   _.onChangedSliderStart();
-                // },
-                // onDragEnd: () {
-                //   _.onChangedSliderEnd();
-                // },
-                // onDragUpdate: (details) {
-                //   print(details);
-                // },
-                // onSeek: (duration) {
-                //   feedBack();
-                //   _.onChangedSlider(duration.inSeconds.toDouble());
-                //   _.seekTo(duration);
-                // },
+              child: Stack(
+                children: [
+                  ProgressBar(
+                    progress: Duration(seconds: value),
+                    buffered: Duration(seconds: buffer),
+                    total: Duration(seconds: max),
+                    progressBarColor: colorTheme,
+                    baseBarColor: Colors.white.withOpacity(0.2),
+                    bufferedBarColor:
+                        Theme.of(context).colorScheme.primary.withOpacity(0.4),
+                    timeLabelLocation: TimeLabelLocation.none,
+                    thumbColor: colorTheme,
+                    barHeight: 3,
+                    thumbRadius: 0.0,
+                    // onDragStart: (duration) {
+                    //   _.onChangedSliderStart();
+                    // },
+                    // onDragEnd: () {
+                    //   _.onChangedSliderEnd();
+                    // },
+                    // onDragUpdate: (details) {
+                    //   print(details);
+                    // },
+                    // onSeek: (duration) {
+                    //   feedBack();
+                    //   _.onChangedSlider(duration.inSeconds.toDouble());
+                    //   _.seekTo(duration);
+                    // },
+                  ),
+                  Positioned.fill(
+                    child: SbPreviewBar(
+                      controller: _,
+                      barHeight: 3,
+                    ),
+                  ),
+                ],
               ),
               // SlideTransition(
               //     position: Tween<Offset>(

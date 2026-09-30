@@ -8,6 +8,7 @@ import 'package:pilipala/models/video/play/ao_output.dart';
 import 'package:pilipala/models/video/play/quality.dart';
 import 'package:pilipala/pages/setting/widgets/select_dialog.dart';
 import 'package:pilipala/plugin/pl_player/index.dart';
+import 'package:pilipala/plugin/sponsor_block/index.dart';
 import 'package:pilipala/services/service_locator.dart';
 import 'package:pilipala/utils/global_data_cache.dart';
 import 'package:pilipala/utils/storage.dart';
@@ -351,6 +352,30 @@ class _PlaySettingState extends State<PlaySetting> {
                 setting.put(SettingBoxKey.btmProgressBehavior, result);
                 setState(() {});
               }
+            },
+          ),
+          const Divider(height: 20),
+          const SetSwitchItem(
+            title: '空降助手',
+            subTitle: '自动跳过恰饭等片段，数据来自小电视空降助手 (bsbsb.top)',
+            setKey: SettingBoxKey.sponsorBlockEnable,
+            defaultVal: true,
+          ),
+          ListTile(
+            dense: false,
+            title: Text('空降片段偏好', style: titleStyle),
+            subtitle: Text(
+              '设置各类片段的跳过方式：自动跳过 / 显示提示 / 关闭',
+              style: subTitleStyle,
+            ),
+            onTap: () {
+              Get.bottomSheet(
+                const SbCategorySheet(),
+                backgroundColor: Colors.transparent,
+                ignoreSafeArea: false,
+                isScrollControlled: true,
+                enableDrag: true,
+              );
             },
           ),
         ],
